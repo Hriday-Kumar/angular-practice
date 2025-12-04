@@ -16,7 +16,7 @@ export class Movie {
   constructor() {
   }
   getTopratedMovies(page = 1): Observable<ApiResult> {
-   return this.http.get<ApiResult>(`${BASE_URL}/movie/popular?page=${page}&api_key=${API_KEY}`);
+   return this.http.get<ApiResult>(`${BASE_URL}/movie/popular?page=${page}&api_key=${API_KEY}`).pipe(delay(20000));
   } 
   getMovieDetails(id: string): Observable<MovieResult> {
     return this.http.get<MovieResult>(`${BASE_URL}/movie/${id}?api_key=${API_KEY}`);

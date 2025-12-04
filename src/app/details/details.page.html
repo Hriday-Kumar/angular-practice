@@ -1,13 +1,26 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>details</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button> 
+    </ion-buttons>
+    <ion-title>{{movie()?.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">details</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+   @if(movie(); as movie) {
+    <ion-card>
+      <img [src]="imageBaseUrl + '/w500' + movie.poster_path" alt="poster" />
+      <ion-card-header>
+        <ion-card-title>{{movie.title}}</ion-card-title>
+        <ion-card-subtitle>Release Date: {{movie.release_date}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{movie.overview}}</p>
+        <p><strong>Rating:</strong> {{movie.vote_average}} / 10</p>
+        <p><strong>Popularity:</strong> {{movie.popularity}}</p>
+      </ion-card-content>
+    </ion-card>
+   }
+   
 </ion-content>

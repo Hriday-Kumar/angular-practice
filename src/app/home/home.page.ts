@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { InfiniteScrollCustomEvent, IonAlert, IonAvatar, IonContent, IonHeader, IonImg, IonInfiniteScroll, IonItem, IonLabel, IonList, IonSkeletonText, IonThumbnail, IonTitle, IonToolbar, IonRouterLink, IonBadge } from '@ionic/angular/standalone';
+import { RouterLinkActive, RouterModule } from "@angular/router";
+import { InfiniteScrollCustomEvent, IonAlert, IonAvatar, IonBadge, IonContent, IonHeader, IonImg, IonInfiniteScroll, IonInfiniteScrollContent, IonItem, IonLabel, IonList, IonRouterLink, IonSkeletonText, IonThumbnail, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { catchError, finalize } from 'rxjs';
 import { MovieResult } from '../services/interfaces';
 import { Movie } from '../services/movie';
-import { RouterLinkActive, RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonAlert, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonSkeletonText, IonAvatar, IonImg, IonLabel, IonItem, IonInfiniteScroll, IonThumbnail, RouterLinkActive, IonRouterLink, IonItem, RouterModule, IonBadge],
+  imports: [IonInfiniteScrollContent, IonAlert, IonList, IonHeader, IonToolbar, IonTitle, IonContent, IonSkeletonText, IonAvatar, IonLabel, IonItem, IonInfiniteScroll, IonThumbnail, IonRouterLink, IonItem, RouterModule, IonBadge],
 })
 export class HomePage {
   private movieService = inject(Movie);
@@ -37,7 +37,7 @@ export class HomePage {
        }), catchError((err : any) => {
         console.log(err);
         this.error = err.error.statsus_message || 'An error occurred while fetching data.';
-        throw err;
+        return [];
        })
      ).subscribe({
        next: (res) => {
@@ -45,7 +45,6 @@ export class HomePage {
         console.log('all data', res.results);
         if (event) {
           event.target.disabled = res.total_pages === this.currentPage;
-
         }
        }
      })
@@ -54,8 +53,7 @@ export class HomePage {
     }
     loadMore(event: InfiniteScrollCustomEvent ) {
       this.currentPage++;
-
-
+      this.loadMovies(event);
     }
   
 }
